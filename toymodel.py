@@ -62,8 +62,10 @@ def ABC_sampling(msini_obs, sim_data, tolerance, nsamp):
 
     # generate parameter samples
     thetas = np.zeros((2, nsamp))
-    thetas[0, :] = np.random.randn(nsamp)*.01 + 1  # slope
-    thetas[1, :] = np.random.randn(nsamp)*.5  # intercept
+#     thetas[0, :] = np.random.randn(nsamp)*.01 + 1  # slope
+#     thetas[1, :] = np.random.randn(nsamp)*.5  # intercept
+    thetas[0, :] = np.random.uniform(0., 3, nsamp)  # slope
+    thetas[1, :] = np.random.uniform(-1., 3, nsamp)  # intercept
     keepsies = np.zeros_like(thetas)
 
     # determine whether samples are accepted or rejected
@@ -77,14 +79,13 @@ def ABC_sampling(msini_obs, sim_data, tolerance, nsamp):
 
     plt.clf()
     plt.subplot(2, 1, 1)
-    plt.hist(parameters[0])
+#     plt.hist(thetas[0, :], alpha=.5, color="r")
+    plt.hist(parameters[0], alpha=.5, color="b")
     plt.subplot(2, 1, 2)
-    plt.hist(parameters[1])
+#     plt.hist(thetas[1, :], alpha=.5, color="r")
+    plt.hist(parameters[1], alpha=.5, color="b")
     plt.show()
     return parameters
-
-# approximate the posterior from the pooled parameters
-# def ABC_posterior(parameters):
 
 if __name__ == "__main__":
 
@@ -93,6 +94,5 @@ if __name__ == "__main__":
     sim_data = np.vstack((r_sim, p_sim, m_star, inc))
 
     # do some ABC
-    tolerance, nsamp = .2, 1000
+    tolerance, nsamp = .2, 10000
     parameters = ABC_sampling(msini_obs, sim_data, tolerance, nsamp)
-    ABC_posterior(parameters)
