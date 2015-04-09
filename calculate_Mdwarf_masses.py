@@ -24,20 +24,6 @@ def colour2mass(B, J, K, R, V, MCMC=False):
         result = smod_phot.maxlike()  # calculate maximum likelihood
     return np.array(result)
 
-def spectraltype2mass(st):
-    spectral_types = np.genfromtxt("data/spectraltype2mass.txt", skip_header=1,
-                                   usecols=(0), dtype=str,
-                                   invalid_raise=False).T
-    T, Mag, L, M = np.genfromtxt("data/spectraltype2mass.txt", skip_header=1,
-                                   usecols=(1, 2, 3, 4), invalid_raise=False).T
-
-
-    masses = []
-    for i in range(len(st)):
-        l = spectral_types == st[i].upper()
-        masses.append(M[l][0])
-    return masses
-
 def get_stellar_parameters(min_distance=0, max_distance=10):
     # load data
     B, R, J, K, V, J_V, plx = np.genfromtxt("data/superblink.txt",
